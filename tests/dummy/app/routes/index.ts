@@ -1,5 +1,6 @@
 import { A } from '@ember/array';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import Ember from 'ember';
 import Pretender from 'pretender';
 
@@ -63,6 +64,8 @@ export default Route.extend({
   server: undefined as any,
   requests: [] as any[],
   currentModel: undefined as any,
+
+  store: service(),
   model() {
     let arr: any = [];
     this.store.pushPayload('fruit', !this.store.peekAll ? LEGACY_PAYLOAD : PAYLOAD);
