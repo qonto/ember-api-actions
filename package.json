@@ -20,19 +20,22 @@
   },
   "scripts": {
     "build": "ember build",
-    "lint:ts": "tslint --project .",
     "lint:hbs": "ember-template-lint .",
-    "start": "ember server",
-    "test": "ember test",
-    "semantic-release": "semantic-release",
+    "lint:ts": "tslint --project .",
+    "prepare": "husky install",
     "prepublishOnly": "ember ts:precompile",
     "postpublish": "ember ts:clean",
-    "prepare": "husky install"
+    "semantic-release": "semantic-release",
+    "start": "ember server",
+    "test": "ember test"
   },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "release": {
+    "extends": "@mike-north/js-lib-semantic-release-config"
   },
   "dependencies": {
     "ember-cli-babel": "^7.1.3",
@@ -44,6 +47,8 @@
     "@commitlint/travis-cli": "8.3.5",
     "@ember/optional-features": "2.0.0",
     "@ember/test-helpers": "2.5.0",
+    "@glimmer/component": "^1.0.0",
+    "@glimmer/tracking": "^1.0.0",
     "@mike-north/js-lib-renovate-config": "1.3.1",
     "@mike-north/js-lib-semantic-release-config": "1.0.1",
     "@types/ember": "3.16.5",
@@ -91,15 +96,15 @@
   "engines": {
     "node": "10.* || >= 12.*"
   },
-  "ember-addon": {
-    "configPath": "tests/dummy/config",
-    "demoURL": "https://mike.works/ember-api-actions"
-  },
-  "release": {
-    "extends": "@mike-north/js-lib-semantic-release-config"
-  },
   "volta": {
     "node": "12.22.2",
     "yarn": "1.22.10"
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "configPath": "tests/dummy/config",
+    "demoURL": "https://mike.works/ember-api-actions"
   }
 }
