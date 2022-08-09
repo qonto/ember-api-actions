@@ -1,4 +1,4 @@
-import { click, visit } from '@ember/test-helpers';
+import { click, settled, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import setupPretender from '../helpers/setup-pretender';
@@ -63,7 +63,7 @@ module('Acceptance | index2', hooks => {
         }
       };
 
-      assert.deepEqual(data, expectedData, 'collection action - request payload run through serialize function');
+      assert.deepEqual(data, expectedData, 'member action - request payload run through serialize function');
       assert.equal(request.params.id, '1', 'request was made to the right URL');
       const response = {
         jsonapi: { version: '1.0' },
@@ -112,9 +112,13 @@ module('Acceptance | index2', hooks => {
 
     await click('#apple .eat-instance-button');
 
+    await settled();
+
     (assert as any).dom(`[data-test-fruit-name="Eaten apple"]`).exists();
 
     await click('.all-fruit .eat-all-button');
+
+    await settled();
 
     (assert as any).dom(`[data-test-fruit-name="Completely Eaten apple"]`).exists();
   });
