@@ -6,7 +6,7 @@ import Pretender from 'pretender';
 
 const { testing } = Ember;
 
-const LEGACY_PAYLOAD = {
+const LEGACY_FRUIT_PAYLOAD = {
   fruit: [
     {
       id: 1,
@@ -27,7 +27,20 @@ const LEGACY_PAYLOAD = {
   ]
 };
 
-const PAYLOAD = {
+const LEGACY_VEGATABLE_PAYLOAD = {
+  vegatable: [
+    {
+      id: 1,
+      name: 'potato',
+    },
+    {
+      id: 2,
+      name: 'carrot',
+    }
+  ]
+}
+
+const FRUIT_PAYLOAD = {
   data: [
     {
       type: 'fruit',
@@ -56,9 +69,31 @@ const PAYLOAD = {
       attributes: {
         name: 'grape'
       }
+    },
+  ]
+};
+
+const VEGATABLE_PAYLOAD = {
+  data: [
+    {
+      type: 'vegatable',
+      id: 1,
+      attributes: {
+        name: 'potato'
+      }
+    },
+    {
+      type: 'vegatable',
+      id: 2,
+      attributes: {
+        name: 'carrot'
+      }
     }
   ]
 };
+
+
+
 
 export default Route.extend({
   server: undefined as any,
@@ -67,14 +102,19 @@ export default Route.extend({
 
   store: service(),
   model() {
-    let arr: any = [];
-    this.store.pushPayload('fruit', !this.store.peekAll ? LEGACY_PAYLOAD : PAYLOAD);
+    let fruitArr: any = [];
+    let vegatableArr: any = [];
+    this.store.pushPayload('fruit', !this.store.peekAll ? LEGACY_FRUIT_PAYLOAD : FRUIT_PAYLOAD);
+    this.store.pushPayload('vegatable', !this.store.peekAll ? LEGACY_VEGATABLE_PAYLOAD : VEGATABLE_PAYLOAD);
     if (!this.store.peekAll) {
-      arr = [1, 2, 3, 4].map(id => (this.store as any).getById('fruit', id));
+      fruitArr = [1, 2, 3, 4].map(id => (this.store as any).getById('fruit', id));
+      vegatableArr = [1, 2].map(id => (this.store as any).getById('vegatable', id));
     } else {
-      arr = this.store.peekAll('fruit');
+      fruitArr = this.store.peekAll('fruit');
+      vegatableArr = this.store.peekAll('vegatable');
     }
-    return A(arr);
+
+    return { fruit: A(fruitArr), vegatable: A(vegatableArr) };
   },
 
   beforeModel() {
